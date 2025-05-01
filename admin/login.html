@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - CS2 SKINS</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'sans-serif']
+                    },
+                    colors: {
+                        'cyber-blue': '#00f3ff',
+                        'cyber-purple': '#b537f2',
+                        'cyber-dark': '#0a0a0a'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #b537f2);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-white font-rajdhani min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md p-8">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <h1 class="font-orbitron text-3xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                CS2 SKINS
+            </h1>
+            <p class="text-gray-400 mt-2">Admin Control Panel</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="cyber-border bg-black/50 rounded-lg p-6">
+            <form id="adminLoginForm" class="space-y-6">
+                <!-- Username -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-300 mb-1">Username</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <input type="text" id="username" name="username" required
+                            class="block w-full pl-10 pr-3 py-2 border-0 bg-black/30 text-white placeholder-gray-500 focus:ring-2 focus:ring-cyber-blue rounded-md"
+                            placeholder="Enter your username">
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" id="password" name="password" required
+                            class="block w-full pl-10 pr-3 py-2 border-0 bg-black/30 text-white placeholder-gray-500 focus:ring-2 focus:ring-cyber-blue rounded-md"
+                            placeholder="Enter your password">
+                    </div>
+                </div>
+
+                <!-- 2FA Code -->
+                <div>
+                    <label for="twoFactorCode" class="block text-sm font-medium text-gray-300 mb-1">2FA Code</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                            <i class="fas fa-shield-alt"></i>
+                        </span>
+                        <input type="text" id="twoFactorCode" name="twoFactorCode" required
+                            class="block w-full pl-10 pr-3 py-2 border-0 bg-black/30 text-white placeholder-gray-500 focus:ring-2 focus:ring-cyber-blue rounded-md"
+                            placeholder="Enter 2FA code">
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div id="errorContainer" class="hidden">
+                    <div class="bg-red-500/10 border border-red-500/30 text-red-500 px-4 py-2 rounded-md">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        <span id="errorMessage"></span>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="loginButton"
+                    class="w-full cyber-border bg-cyber-blue/10 hover:bg-cyber-blue/20 text-cyber-blue py-2 px-4 rounded-md transition-all flex items-center justify-center space-x-2">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login to Admin Panel</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Security Notice -->
+        <div class="mt-6 text-center text-sm text-gray-400">
+            <p>
+                <i class="fas fa-shield-alt text-cyber-purple mr-2"></i>
+                Secured with end-to-end encryption and 2FA
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('adminLoginForm');
+            const errorContainer = document.getElementById('errorContainer');
+            const errorMessage = document.getElementById('errorMessage');
+            const loginButton = document.getElementById('loginButton');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Show loading state
+                loginButton.disabled = true;
+                loginButton.innerHTML = `
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Authenticating...</span>
+                `;
+                errorContainer.classList.add('hidden');
+
+                try {
+                    const response = await fetch('/api/admin/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username: form.username.value,
+                            password: form.password.value,
+                            twoFactorCode: form.twoFactorCode.value
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Store admin session data
+                        sessionStorage.setItem('admin_authenticated', 'true');
+                        sessionStorage.setItem('admin_data', JSON.stringify(data.admin));
+                        sessionStorage.setItem('admin_token', data.token);
+
+                        // Redirect to admin dashboard
+                        window.location.href = '/admin/dashboard';
+                    } else {
+                        throw new Error(data.message || 'Authentication failed');
+                    }
+                } catch (error) {
+                    errorMessage.textContent = error.message;
+                    errorContainer.classList.remove('hidden');
+                    
+                    // Reset button state
+                    loginButton.disabled = false;
+                    loginButton.innerHTML = `
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login to Admin Panel</span>
+                    `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
