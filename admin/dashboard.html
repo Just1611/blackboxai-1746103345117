@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - CS2 SKINS</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'sans-serif']
+                    },
+                    colors: {
+                        'cyber-blue': '#00f3ff',
+                        'cyber-purple': '#b537f2',
+                        'cyber-dark': '#0a0a0a',
+                        'steam-blue': '#1b2838'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #b537f2);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+        .admin-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-white font-rajdhani min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyber-blue/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/admin" class="font-orbitron text-2xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS ADMIN
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-cyber-blue">
+                        <i class="fas fa-user-shield mr-2"></i>
+                        <span id="adminName">Admin</span>
+                    </span>
+                    <button onclick="logout()" class="cyber-border px-4 py-2 rounded-md bg-black/50 hover:bg-red-500/10 transition-all text-red-500">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-8 px-4">
+        <div class="max-w-7xl mx-auto">
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="cyber-border bg-black/50 rounded-lg p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400">Daily Trades</p>
+                            <h3 class="text-2xl font-bold text-cyber-blue" data-stat="daily_trades">0</h3>
+                        </div>
+                        <i class="fas fa-exchange-alt text-2xl text-cyber-blue/50"></i>
+                    </div>
+                </div>
+                <div class="cyber-border bg-black/50 rounded-lg p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400">Active Users</p>
+                            <h3 class="text-2xl font-bold text-cyber-purple" data-stat="active_users">0</h3>
+                        </div>
+                        <i class="fas fa-users text-2xl text-cyber-purple/50"></i>
+                    </div>
+                </div>
+                <div class="cyber-border bg-black/50 rounded-lg p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400">Cases Opened</p>
+                            <h3 class="text-2xl font-bold text-green-500" data-stat="cases_opened">0</h3>
+                        </div>
+                        <i class="fas fa-box-open text-2xl text-green-500/50"></i>
+                    </div>
+                </div>
+                <div class="cyber-border bg-black/50 rounded-lg p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400">Net Profit</p>
+                            <h3 class="text-2xl font-bold text-yellow-500" data-stat="net_profit">$0.00</h3>
+                        </div>
+                        <i class="fas fa-chart-line text-2xl text-yellow-500/50"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Case Management -->
+                <div class="cyber-border bg-black/50 rounded-lg p-6 admin-card transition-all">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-box-open text-2xl text-cyber-blue mr-3"></i>
+                        <h2 class="text-xl font-bold">Case Management</h2>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="/admin/cases/create" class="hover:text-cyber-blue"><i class="fas fa-plus mr-2"></i>Create New Case</a></li>
+                        <li><a href="/admin/cases" class="hover:text-cyber-blue"><i class="fas fa-edit mr-2"></i>Edit Cases</a></li>
+                        <li><a href="/admin/cases/stats" class="hover:text-cyber-blue"><i class="fas fa-chart-pie mr-2"></i>Case Statistics</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bot Management -->
+                <div class="cyber-border bg-black/50 rounded-lg p-6 admin-card transition-all">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-robot text-2xl text-cyber-purple mr-3"></i>
+                        <h2 class="text-xl font-bold">Bot Management</h2>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="/admin/bots/inventory" class="hover:text-cyber-purple"><i class="fas fa-boxes mr-2"></i>Bot Inventory</a></li>
+                        <li><a href="/admin/bots/trades" class="hover:text-cyber-purple"><i class="fas fa-exchange-alt mr-2"></i>Force Trades</a></li>
+                        <li><a href="/admin/bots/settings" class="hover:text-cyber-purple"><i class="fas fa-cog mr-2"></i>Bot Settings</a></li>
+                    </ul>
+                </div>
+
+                <!-- User Management -->
+                <div class="cyber-border bg-black/50 rounded-lg p-6 admin-card transition-all">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-users-cog text-2xl text-green-500 mr-3"></i>
+                        <h2 class="text-xl font-bold">User Management</h2>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="/admin/users" class="hover:text-green-500"><i class="fas fa-user-friends mr-2"></i>User List</a></li>
+                        <li><a href="/admin/users/roles" class="hover:text-green-500"><i class="fas fa-user-shield mr-2"></i>Role Management</a></li>
+                        <li><a href="/admin/users/bans" class="hover:text-green-500"><i class="fas fa-ban mr-2"></i>Ban Management</a></li>
+                    </ul>
+                </div>
+
+                <!-- Statistics -->
+                <div class="cyber-border bg-black/50 rounded-lg p-6 admin-card transition-all">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-chart-bar text-2xl text-yellow-500 mr-3"></i>
+                        <h2 class="text-xl font-bold">Statistics</h2>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="/admin/stats/trades" class="hover:text-yellow-500"><i class="fas fa-exchange-alt mr-2"></i>Trade Stats</a></li>
+                        <li><a href="/admin/stats/cases" class="hover:text-yellow-500"><i class="fas fa-box mr-2"></i>Case Stats</a></li>
+                        <li><a href="/admin/stats/export" class="hover:text-yellow-500"><i class="fas fa-file-export mr-2"></i>Export Reports</a></li>
+                    </ul>
+                </div>
+
+                <!-- Security -->
+                <div class="cyber-border bg-black/50 rounded-lg p-6 admin-card transition-all">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-shield-alt text-2xl text-red-500 mr-3"></i>
+                        <h2 class="text-xl font-bold">Security</h2>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="/admin/security/logs" class="hover:text-red-500"><i class="fas fa-list mr-2"></i>Login Logs</a></li>
+                        <li><a href="/admin/maintenance" class="hover:text-red-500"><i class="fas fa-tools mr-2"></i>Maintenance Mode</a></li>
+                        <li><a href="/admin/security/attempts" class="hover:text-red-500"><i class="fas fa-user-slash mr-2"></i>Failed Attempts</a></li>
+                    </ul>
+                </div>
+
+                <!-- Payments -->
+                <div class="cyber-border bg-black/50 rounded-lg p-6 admin-card transition-all">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-money-bill-wave text-2xl text-blue-500 mr-3"></i>
+                        <h2 class="text-xl font-bold">Payments</h2>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="/admin/payments/deposits" class="hover:text-blue-500"><i class="fas fa-wallet mr-2"></i>Deposits</a></li>
+                        <li><a href="/admin/payments/refunds" class="hover:text-blue-500"><i class="fas fa-undo mr-2"></i>Refunds</a></li>
+                        <li><a href="/admin/payments/crypto" class="hover:text-blue-500"><i class="fab fa-bitcoin mr-2"></i>Crypto Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-cyber-blue/20 py-4">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-400">
+            <p>© 2024 CS2 SKINS Admin Panel. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Admin Panel JavaScript
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check admin authentication
+            if (!sessionStorage.getItem('admin_authenticated')) {
+                window.location.href = '/admin/login';
+                return;
+            }
+
+            // Set admin name
+            const adminData = JSON.parse(sessionStorage.getItem('admin_data') || '{}');
+            document.getElementById('adminName').textContent = adminData.username || 'Admin';
+
+            // Initialize real-time updates
+            initializeRealTimeUpdates();
+        });
+
+        function initializeRealTimeUpdates() {
+            // Fetch stats immediately
+            fetchLatestStats();
+            
+            // Then update every 30 seconds
+            setInterval(fetchLatestStats, 30000);
+
+            // Set up WebSocket for real-time updates (if available)
+            if ('WebSocket' in window) {
+                try {
+                    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                    const ws = new WebSocket(`${protocol}//${window.location.host}/ws/admin/stats`);
+                    
+                    ws.onmessage = (event) => {
+                        const stats = JSON.parse(event.data);
+                        updateDashboardStats(stats);
+                    };
+
+                    ws.onerror = (error) => {
+                        console.error('WebSocket error:', error);
+                        // Fallback to polling on WebSocket error
+                        setInterval(fetchLatestStats, 30000);
+                    };
+                } catch (error) {
+                    console.error('WebSocket connection failed:', error);
+                    // Fallback to polling if WebSocket fails
+                    setInterval(fetchLatestStats, 30000);
+                }
+            }
+        }
+
+        async function fetchLatestStats() {
+            try {
+                const response = await fetch('/api/admin/stats');
+                if (response.ok) {
+                    const stats = await response.json();
+                    updateDashboardStats(stats);
+                }
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+            }
+        }
+
+        function updateDashboardStats(stats) {
+            // Update statistics cards
+            document.querySelector('[data-stat="daily_trades"]').textContent = stats.daily_trades.toLocaleString();
+            document.querySelector('[data-stat="active_users"]').textContent = stats.active_users.toLocaleString();
+            document.querySelector('[data-stat="cases_opened"]').textContent = stats.cases_opened.toLocaleString();
+            document.querySelector('[data-stat="net_profit"]').textContent = `$${stats.net_profit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        }
+
+        async function fetchLatestStats() {
+            try {
+                const response = await fetch('/api/admin/stats');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const stats = await response.json();
+                if (stats.error) {
+                    console.error('Error fetching stats:', stats.error);
+                    return;
+                }
+                updateDashboardStats(stats);
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('admin_authenticated');
+            sessionStorage.removeItem('admin_data');
+            window.location.href = '/admin/login';
+        }
+    </script>
+</body>
+</html>
