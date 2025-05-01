@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance - CS2 SKINS</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'sans-serif']
+                    },
+                    colors: {
+                        'cyber-blue': '#00f3ff',
+                        'cyber-purple': '#b537f2',
+                        'cyber-dark': '#0a0a0a'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #b537f2);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .maintenance-icon {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-white font-rajdhani min-h-screen flex items-center justify-center">
+    <div class="max-w-2xl mx-auto px-4 text-center">
+        <!-- Logo -->
+        <div class="mb-8">
+            <h1 class="font-orbitron text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                CS2 SKINS
+            </h1>
+        </div>
+        
+        <!-- Maintenance Icon -->
+        <div class="maintenance-icon text-cyber-blue text-6xl mb-8">
+            <i class="fas fa-tools"></i>
+        </div>
+        
+        <!-- Message -->
+        <div class="cyber-border bg-black/50 rounded-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold mb-4">Site Under Maintenance</h2>
+            <p class="text-gray-300 mb-6">{{ message }}</p>
+            
+            {% if startTime and duration %}
+            <div class="space-y-2 text-sm text-gray-400">
+                <p>
+                    <i class="fas fa-clock mr-2"></i>
+                    Started: <span id="startTime">{{ startTime }}</span>
+                </p>
+                <p>
+                    <i class="fas fa-hourglass-half mr-2"></i>
+                    Estimated Duration: {{ duration }} minutes
+                </p>
+                <p>
+                    <i class="fas fa-calendar-check mr-2"></i>
+                    Expected Completion: <span id="endTime"></span>
+                </p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Social Links -->
+        <div class="flex justify-center space-x-4">
+            <a href="https://twitter.com/cs2skins" target="_blank" 
+                class="text-gray-400 hover:text-cyber-blue transition-colors">
+                <i class="fab fa-twitter text-xl"></i>
+            </a>
+            <a href="https://discord.gg/cs2skins" target="_blank"
+                class="text-gray-400 hover:text-cyber-purple transition-colors">
+                <i class="fab fa-discord text-xl"></i>
+            </a>
+            <a href="https://t.me/cs2skins" target="_blank"
+                class="text-gray-400 hover:text-blue-500 transition-colors">
+                <i class="fab fa-telegram text-xl"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Format dates
+        function formatDate(isoString) {
+            return new Date(isoString).toLocaleString();
+        }
+        
+        function calculateEndTime(startTime, durationMinutes) {
+            const endTime = new Date(startTime);
+            endTime.setMinutes(endTime.getMinutes() + durationMinutes);
+            return formatDate(endTime);
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const startTimeElement = document.getElementById('startTime');
+            const endTimeElement = document.getElementById('endTime');
+            
+            if (startTimeElement && endTimeElement) {
+                const startTime = startTimeElement.textContent;
+                // Get duration from server-side template
+                const maintenanceDuration = parseInt("{{ duration or 0 }}");
+                
+                startTimeElement.textContent = formatDate(startTime);
+                endTimeElement.textContent = calculateEndTime(startTime, maintenanceDuration);
+            }
+        });
+
+        // Auto-refresh page every minute to check maintenance status
+        setTimeout(() => {
+            window.location.reload();
+        }, 60000);
+    </script>
+</body>
+</html>
