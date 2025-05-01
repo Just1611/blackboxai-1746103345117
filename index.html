@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS2 Skins - Trade & Open Cases</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        'cyber-blue': '#00f3ff',
+                        'cyber-purple': '#b537f2',
+                        'cyber-dark': '#0a0a0a',
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #b537f2);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-white font-rajdhani">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyber-blue/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="font-orbitron text-2xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- Language Selector -->
+                    <div class="relative group">
+                        <button class="cyber-border px-3 py-2 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all flex items-center">
+                            <i class="fas fa-globe mr-2"></i>
+                            <span class="current-lang">EN</span>
+                            <i class="fas fa-chevron-down ml-2"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-black/90 rounded-md shadow-lg py-1 hidden group-hover:block">
+                            <button class="lang-select block w-full text-left px-4 py-2 text-sm hover:bg-cyber-blue/10" data-lang="en">
+                                <i class="fas fa-check mr-2 opacity-0"></i>English
+                            </button>
+                            <button class="lang-select block w-full text-left px-4 py-2 text-sm hover:bg-cyber-blue/10" data-lang="pt">
+                                <i class="fas fa-check mr-2 opacity-0"></i>Português
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-baseline space-x-4">
+                        <a href="/trade.html" class="px-3 py-2 hover:text-cyber-blue transition-colors" data-lang="nav.trade">Trade</a>
+                        <a href="/boxes.html" class="px-3 py-2 hover:text-cyber-blue transition-colors" data-lang="nav.cases">Cases</a>
+                        <a href="/wallet.html" class="px-3 py-2 hover:text-cyber-blue transition-colors" data-lang="nav.wallet">Wallet</a>
+                        <a href="/login.html" class="cyber-border px-6 py-2 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all">
+                            <i class="fab fa-steam mr-2"></i><span data-lang="nav.login">Login</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.pexels.com/photos/2007647/pexels-photo-2007647.jpeg" 
+                 alt="CS2 Background" 
+                 class="w-full h-full object-cover opacity-30">
+            <div class="absolute inset-0 bg-gradient-radial from-transparent via-cyber-dark/80 to-cyber-dark"></div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="font-orbitron text-4xl md:text-6xl lg:text-7xl font-bold mb-8">
+                <span class="bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent" data-lang="home.title">
+                    Trade CS2 Skins
+                </span>
+                <br>
+                <span class="text-3xl md:text-5xl lg:text-6xl" data-lang="home.subtitle">
+                    Like Never Before
+                </span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-12 text-gray-300 max-w-3xl mx-auto" data-lang="home.description">
+                Instant trades, automated bots, and exciting case openings. Join the future of CS2 skin trading.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="/trade.html" class="cyber-border px-8 py-4 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all text-lg font-semibold">
+                    <i class="fas fa-exchange-alt mr-2"></i><span data-lang="home.startTrading">Start Trading</span>
+                </a>
+                <a href="/boxes.html" class="cyber-border px-8 py-4 rounded-md bg-black/50 hover:bg-cyber-purple/10 transition-all text-lg font-semibold">
+                    <i class="fas fa-box-open mr-2"></i><span data-lang="home.openCases">Open Cases</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-gradient-to-b from-cyber-dark to-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-16">
+                <span class="bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                    Why Choose Us
+                </span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Instant Trading -->
+                <div class="cyber-border p-6 rounded-lg bg-black/50 backdrop-blur-sm animate-float">
+                    <div class="text-cyber-blue text-4xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-orbitron font-semibold mb-4">Instant Trading</h3>
+                    <p class="text-gray-400">
+                        Our automated bots ensure lightning-fast trades, available 24/7.
+                    </p>
+                </div>
+
+                <!-- Secure Platform -->
+                <div class="cyber-border p-6 rounded-lg bg-black/50 backdrop-blur-sm animate-float" style="animation-delay: 0.2s;">
+                    <div class="text-cyber-purple text-4xl mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-orbitron font-semibold mb-4">Secure Platform</h3>
+                    <p class="text-gray-400">
+                        Steam authentication and encrypted transactions keep your items safe.
+                    </p>
+                </div>
+
+                <!-- Exciting Cases -->
+                <div class="cyber-border p-6 rounded-lg bg-black/50 backdrop-blur-sm animate-float" style="animation-delay: 0.4s;">
+                    <div class="text-cyber-blue text-4xl mb-4">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <h3 class="text-xl font-orbitron font-semibold mb-4">Exciting Cases</h3>
+                    <p class="text-gray-400">
+                        Open custom cases with amazing odds and win rare skins.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Drops Section -->
+    <section class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-16">
+                <span class="bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                    Live Drops
+                </span>
+            </h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Sample Drop Items -->
+                <div class="cyber-border p-4 rounded-lg bg-black/50 backdrop-blur-sm hover:scale-105 transition-transform">
+                    <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV09-5lpKKqPrxN7LEmyVQ7MEpiLuSrYmnjQO3-UdsZGHyd4_Bd1RvNQ7T_FDrw-_ng5Pu75iY1zI97bhLsvQz/360fx360f" 
+                         alt="CS2 Skin" class="w-full h-auto rounded mb-2">
+                    <p class="text-sm text-gray-400">★ M9 Bayonet | Gamma Doppler</p>
+                    <p class="text-cyber-blue font-semibold">$1,250.00</p>
+                </div>
+
+                <div class="cyber-border p-4 rounded-lg bg-black/50 backdrop-blur-sm hover:scale-105 transition-transform">
+                    <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV0966m4-PhOf7Ia_ummJW4NFOhujT8om73wXkqktsYWqdIo-XdAU4YQzU_1i3w-u7hJW07pnNmHpkuyZ0tHbVnwv330_FBz5O2A/360fx360f" 
+                         alt="CS2 Skin" class="w-full h-auto rounded mb-2">
+                    <p class="text-sm text-gray-400">★ Karambit | Autotronic</p>
+                    <p class="text-cyber-purple font-semibold">$950.00</p>
+                </div>
+
+                <div class="cyber-border p-4 rounded-lg bg-black/50 backdrop-blur-sm hover:scale-105 transition-transform">
+                    <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf2PLacDBA5ciJlY20k_jkI7fUhFRB4MRij7j--YXygED6-kU_Y2HyctOUIQI3YQyDrla_yO3ohZG76s7NzXthvCkj5HfYzQv330_zf4d0Zw/360fx360f" 
+                         alt="CS2 Skin" class="w-full h-auto rounded mb-2">
+                    <p class="text-sm text-gray-400">AWP | Dragon Lore</p>
+                    <p class="text-cyber-blue font-semibold">$2,800.00</p>
+                </div>
+
+                <div class="cyber-border p-4 rounded-lg bg-black/50 backdrop-blur-sm hover:scale-105 transition-transform">
+                    <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV086jloKOhcj8NrrHj1Rd6dd2j6eQ9N2t2wK3-ENsZ23wcIKRdQE2NwyE_FC8x-q91JXtvZrMznM2unRx-z-DyIFJbNUz/360fx360f" 
+                         alt="CS2 Skin" class="w-full h-auto rounded mb-2">
+                    <p class="text-sm text-gray-400">★ Butterfly Knife | Fade</p>
+                    <p class="text-cyber-purple font-semibold">$1,800.00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-cyber-dark border-t border-cyber-blue/20 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <span class="font-orbitron text-xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS
+                    </span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-steam"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-4 text-center text-sm text-gray-400">
+                © 2024 CS2 SKINS. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Steam API and Language Support -->
+    <script src="/js/main.js"></script>
+</body>
+</html>
