@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Mode - CS2 SKINS Admin</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'sans-serif']
+                    },
+                    colors: {
+                        'cyber-blue': '#00f3ff',
+                        'cyber-purple': '#b537f2',
+                        'cyber-dark': '#0a0a0a'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #b537f2);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-white font-rajdhani">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyber-blue/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/admin" class="font-orbitron text-2xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS ADMIN
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/admin/dashboard" class="text-gray-300 hover:text-cyber-blue transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-8 px-4">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold">Maintenance Mode</h1>
+                <div class="flex space-x-4">
+                    <button id="toggleMaintenance" class="cyber-border bg-red-500/10 hover:bg-red-500/20 text-red-500 py-2 px-4 rounded-md transition-all">
+                        <i class="fas fa-power-off mr-2"></i>
+                        <span>Enable Maintenance Mode</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Status Card -->
+            <div class="cyber-border bg-black/50 rounded-lg p-6 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold">System Status</h2>
+                        <p class="text-gray-400 mt-1">Current system operational status</p>
+                    </div>
+                    <div id="statusIndicator" class="flex items-center">
+                        <span class="h-3 w-3 rounded-full bg-green-500 mr-2"></span>
+                        <span class="text-green-500">Operational</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="cyber-border bg-black/30 p-4 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400">Active Users</p>
+                                <h3 id="activeUsers" class="text-2xl font-bold text-cyber-blue">0</h3>
+                            </div>
+                            <i class="fas fa-users text-2xl text-cyber-blue/50"></i>
+                        </div>
+                    </div>
+                    <div class="cyber-border bg-black/30 p-4 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400">Active Trades</p>
+                                <h3 id="activeTrades" class="text-2xl font-bold text-cyber-purple">0</h3>
+                            </div>
+                            <i class="fas fa-exchange-alt text-2xl text-cyber-purple/50"></i>
+                        </div>
+                    </div>
+                    <div class="cyber-border bg-black/30 p-4 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400">Active Bots</p>
+                                <h3 id="activeBots" class="text-2xl font-bold text-green-500">0</h3>
+                            </div>
+                            <i class="fas fa-robot text-2xl text-green-500/50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maintenance Settings -->
+            <div class="cyber-border bg-black/50 rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-6">Maintenance Settings</h2>
+                
+                <form id="maintenanceForm" class="space-y-6">
+                    <!-- Message -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Maintenance Message</label>
+                        <textarea id="maintenanceMessage" rows="3" 
+                            class="w-full bg-black/30 border-0 rounded-md focus:ring-2 focus:ring-cyber-blue"
+                            placeholder="Enter message to display to users during maintenance..."></textarea>
+                    </div>
+
+                    <!-- Estimated Duration -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Estimated Duration</label>
+                            <input type="number" id="maintenanceDuration" min="1" 
+                                class="w-full bg-black/30 border-0 rounded-md focus:ring-2 focus:ring-cyber-blue"
+                                placeholder="Duration in minutes">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Allow Admin Access</label>
+                            <select id="allowAdminAccess" 
+                                class="w-full bg-black/30 border-0 rounded-md focus:ring-2 focus:ring-cyber-blue">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Save Settings -->
+                    <div class="flex justify-end">
+                        <button type="submit" class="cyber-border bg-cyber-blue/10 hover:bg-cyber-blue/20 text-cyber-blue py-2 px-4 rounded-md transition-all">
+                            <i class="fas fa-save mr-2"></i>
+                            Save Settings
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let maintenanceActive = false;
+
+        // Load current status
+        async function loadStatus() {
+            try {
+                const response = await fetch('/api/admin/maintenance/status');
+                const data = await response.json();
+                
+                maintenanceActive = data.maintenanceMode;
+                updateUI(data);
+            } catch (error) {
+                console.error('Error loading status:', error);
+            }
+        }
+
+        // Update UI based on status
+        function updateUI(data) {
+            const statusIndicator = document.getElementById('statusIndicator');
+            const toggleButton = document.getElementById('toggleMaintenance');
+            
+            if (maintenanceActive) {
+                statusIndicator.innerHTML = `
+                    <span class="h-3 w-3 rounded-full bg-red-500 mr-2"></span>
+                    <span class="text-red-500">Maintenance Mode</span>
+                `;
+                toggleButton.innerHTML = `
+                    <i class="fas fa-power-off mr-2"></i>
+                    <span>Disable Maintenance Mode</span>
+                `;
+                toggleButton.classList.remove('bg-red-500/10', 'hover:bg-red-500/20', 'text-red-500');
+                toggleButton.classList.add('bg-green-500/10', 'hover:bg-green-500/20', 'text-green-500');
+            } else {
+                statusIndicator.innerHTML = `
+                    <span class="h-3 w-3 rounded-full bg-green-500 mr-2"></span>
+                    <span class="text-green-500">Operational</span>
+                `;
+                toggleButton.innerHTML = `
+                    <i class="fas fa-power-off mr-2"></i>
+                    <span>Enable Maintenance Mode</span>
+                `;
+                toggleButton.classList.remove('bg-green-500/10', 'hover:bg-green-500/20', 'text-green-500');
+                toggleButton.classList.add('bg-red-500/10', 'hover:bg-red-500/20', 'text-red-500');
+            }
+
+            // Update stats
+            document.getElementById('activeUsers').textContent = data.stats.activeUsers;
+            document.getElementById('activeTrades').textContent = data.stats.activeTrades;
+            document.getElementById('activeBots').textContent = data.stats.activeBots;
+
+            // Update form
+            document.getElementById('maintenanceMessage').value = data.settings.message || '';
+            document.getElementById('maintenanceDuration').value = data.settings.duration || '';
+            document.getElementById('allowAdminAccess').value = data.settings.allowAdminAccess;
+        }
+
+        // Toggle maintenance mode
+        document.getElementById('toggleMaintenance').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/admin/maintenance/toggle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ active: !maintenanceActive })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    maintenanceActive = data.maintenanceMode;
+                    updateUI(data);
+                }
+            } catch (error) {
+                console.error('Error toggling maintenance mode:', error);
+            }
+        });
+
+        // Save maintenance settings
+        document.getElementById('maintenanceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                const response = await fetch('/api/admin/maintenance/settings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: document.getElementById('maintenanceMessage').value,
+                        duration: parseInt(document.getElementById('maintenanceDuration').value),
+                        allowAdminAccess: document.getElementById('allowAdminAccess').value === 'true'
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    updateUI(data);
+                    alert('Settings saved successfully');
+                }
+            } catch (error) {
+                console.error('Error saving settings:', error);
+                alert('Failed to save settings');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadStatus);
+
+        // Refresh status periodically
+        setInterval(loadStatus, 30000);
+    </script>
+</body>
+</html>
