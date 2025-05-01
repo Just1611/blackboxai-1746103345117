@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Management - CS2 SKINS Admin</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'sans-serif']
+                    },
+                    colors: {
+                        'cyber-blue': '#00f3ff',
+                        'cyber-purple': '#b537f2',
+                        'cyber-dark': '#0a0a0a'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #b537f2);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-white font-rajdhani">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyber-blue/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/admin" class="font-orbitron text-2xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS ADMIN
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/admin/dashboard" class="text-gray-300 hover:text-cyber-blue transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-8 px-4">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold">Case Management</h1>
+                <button onclick="openCreateCaseModal()" class="cyber-border bg-cyber-blue/10 hover:bg-cyber-blue/20 text-cyber-blue py-2 px-4 rounded-md transition-all">
+                    <i class="fas fa-plus mr-2"></i>
+                    Create New Case
+                </button>
+            </div>
+
+            <!-- Cases Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="casesGrid">
+                <!-- Cases will be loaded here dynamically -->
+            </div>
+
+            <!-- Create Case Modal -->
+            <div id="createCaseModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden items-center justify-center z-50">
+                <div class="cyber-border bg-black/80 rounded-lg p-6 max-w-2xl w-full mx-4">
+                    <h2 class="text-2xl font-bold mb-6">Create New Case</h2>
+                    <form id="createCaseForm" class="space-y-6">
+                        <!-- Basic Info -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Case Name</label>
+                                <input type="text" name="name" required
+                                    class="w-full bg-black/30 border-0 rounded-md focus:ring-2 focus:ring-cyber-blue">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Price (USD)</label>
+                                <input type="number" name="price" step="0.01" required
+                                    class="w-full bg-black/30 border-0 rounded-md focus:ring-2 focus:ring-cyber-blue">
+                            </div>
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Case Image</label>
+                            <div class="flex items-center space-x-4">
+                                <input type="file" name="image" accept="image/*" required
+                                    class="w-full bg-black/30 border-0 rounded-md focus:ring-2 focus:ring-cyber-blue">
+                                <img id="imagePreview" class="hidden w-16 h-16 object-cover rounded-md">
+                            </div>
+                        </div>
+
+                        <!-- Items -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Items</label>
+                            <div id="itemsList" class="space-y-4">
+                                <!-- Item template will be cloned here -->
+                            </div>
+                            <button type="button" onclick="addItem()" class="mt-2 text-cyber-blue hover:text-cyber-purple transition-colors">
+                                <i class="fas fa-plus mr-2"></i>Add Item
+                            </button>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex justify-end space-x-4">
+                            <button type="button" onclick="closeCreateCaseModal()" class="px-4 py-2 text-gray-400 hover:text-white transition-colors">
+                                Cancel
+                            </button>
+                            <button type="submit" class="cyber-border bg-cyber-blue/10 hover:bg-cyber-blue/20 text-cyber-blue py-2 px-4 rounded-md transition-all">
+                                Create Case
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Item template for new cases
+        const itemTemplate = `
+            <div class="item-entry grid grid-cols-1 md:grid-cols-4 gap-4 p-4 cyber-border bg-black/30 rounded-md">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Item Name</label>
+                    <input type="text" name="items[][name]" required
+                        class="w-full bg-black/20 border-0 rounded-md focus:ring-2 focus:ring-cyber-blue">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Rarity</label>
+                    <select name="items[][rarity]" required
+                        class="w-full bg-black/20 border-0 rounded-md focus:ring-2 focus:ring-cyber-blue">
+                        <option value="consumer">Consumer</option>
+                        <option value="industrial">Industrial</option>
+                        <option value="mil-spec">Mil-Spec</option>
+                        <option value="restricted">Restricted</option>
+                        <option value="classified">Classified</option>
+                        <option value="covert">Covert</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Drop Rate (%)</label>
+                    <input type="number" name="items[][dropRate]" min="0" max="100" step="0.01" required
+                        class="w-full bg-black/20 border-0 rounded-md focus:ring-2 focus:ring-cyber-blue">
+                </div>
+                <div class="flex items-end">
+                    <button type="button" onclick="removeItem(this)" class="text-red-500 hover:text-red-400 transition-colors">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        // Load existing cases
+        async function loadCases() {
+            try {
+                const response = await fetch('/api/admin/cases');
+                const cases = await response.json();
+                
+                const casesGrid = document.getElementById('casesGrid');
+                casesGrid.innerHTML = cases.map(caseData => `
+                    <div class="cyber-border bg-black/50 rounded-lg p-4">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold">${caseData.name}</h3>
+                                <p class="text-gray-400">$${caseData.price}</p>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button onclick="editCase('${caseData.id}')" class="text-cyber-blue hover:text-cyber-purple transition-colors">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="toggleCase('${caseData.id}', ${!caseData.active})" 
+                                    class="${caseData.active ? 'text-green-500' : 'text-red-500'} hover:opacity-80 transition-colors">
+                                    <i class="fas fa-power-off"></i>
+                                </button>
+                                <button onclick="deleteCase('${caseData.id}')" class="text-red-500 hover:text-red-400 transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <img src="${caseData.imageUrl}" alt="${caseData.name}" class="w-full h-48 object-cover rounded-md">
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-semibold mb-2">Items: ${caseData.items.length}</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${caseData.items.map(item => `
+                                    <span class="px-2 py-1 rounded-full text-xs ${getRarityColor(item.rarity)}">
+                                        ${item.name}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading cases:', error);
+            }
+        }
+
+        function getRarityColor(rarity) {
+            const colors = {
+                'consumer': 'bg-gray-600/50 text-gray-300',
+                'industrial': 'bg-blue-600/50 text-blue-300',
+                'mil-spec': 'bg-blue-500/50 text-blue-200',
+                'restricted': 'bg-purple-600/50 text-purple-300',
+                'classified': 'bg-pink-600/50 text-pink-300',
+                'covert': 'bg-red-600/50 text-red-300'
+            };
+            return colors[rarity] || 'bg-gray-600/50 text-gray-300';
+        }
+
+        // Modal functions
+        function openCreateCaseModal() {
+            document.getElementById('createCaseModal').classList.remove('hidden');
+            document.getElementById('createCaseModal').classList.add('flex');
+        }
+
+        function closeCreateCaseModal() {
+            document.getElementById('createCaseModal').classList.add('hidden');
+            document.getElementById('createCaseModal').classList.remove('flex');
+        }
+
+        function addItem() {
+            const itemsList = document.getElementById('itemsList');
+            const newItem = document.createElement('div');
+            newItem.innerHTML = itemTemplate;
+            itemsList.appendChild(newItem.firstElementChild);
+        }
+
+        function removeItem(button) {
+            button.closest('.item-entry').remove();
+        }
+
+        // Form submission
+        document.getElementById('createCaseForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                const formData = new FormData(e.target);
+                const response = await fetch('/api/admin/cases', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    closeCreateCaseModal();
+                    loadCases();
+                } else {
+                    const error = await response.json();
+                    alert(error.message || 'Failed to create case');
+                }
+            } catch (error) {
+                console.error('Error creating case:', error);
+                alert('Failed to create case');
+            }
+        });
+
+        // Image preview
+        document.querySelector('input[name="image"]').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCases();
+            addItem(); // Add first item row
+        });
+    </script>
+</body>
+</html>
