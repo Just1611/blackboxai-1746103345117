@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - CS2 SKINS Admin</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'sans-serif']
+                    },
+                    colors: {
+                        'cyber-blue': '#00f3ff',
+                        'cyber-purple': '#b537f2',
+                        'cyber-dark': '#0a0a0a'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #b537f2);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-white font-rajdhani">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyber-blue/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/admin" class="font-orbitron text-2xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS ADMIN
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/admin/dashboard" class="text-gray-300 hover:text-cyber-blue transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-8 px-4">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold">User Management</h1>
+                <div class="flex space-x-4">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Search users..." 
+                            class="pl-10 pr-4 py-2 bg-black/30 border-0 rounded-md focus:ring-2 focus:ring-cyber-blue text-white placeholder-gray-500">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-500"></i>
+                    </div>
+                    <button onclick="exportUserData()" class="cyber-border bg-cyber-purple/10 hover:bg-cyber-purple/20 text-cyber-purple py-2 px-4 rounded-md transition-all">
+                        <i class="fas fa-file-export mr-2"></i>
+                        Export Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="cyber-border bg-black/50 rounded-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-black/30">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">User</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Role</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Trades</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Balance</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody" class="divide-y divide-gray-800">
+                            <!-- Users will be loaded here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- User Details Modal -->
+            <div id="userDetailsModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden items-center justify-center z-50">
+                <div class="cyber-border bg-black/80 rounded-lg p-6 max-w-4xl w-full mx-4">
+                    <div class="flex justify-between items-start mb-6">
+                        <h2 class="text-2xl font-bold">User Details</h2>
+                        <button onclick="closeUserModal()" class="text-gray-400 hover:text-white">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="userDetailsContent" class="space-y-6">
+                        <!-- User Profile -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4">
+                                    <img id="userAvatar" src="" alt="User Avatar" class="w-16 h-16 rounded-full">
+                                    <div>
+                                        <h3 id="userName" class="text-xl font-bold"></h3>
+                                        <p id="userSteamId" class="text-gray-400"></p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="cyber-border bg-black/30 p-4 rounded-md">
+                                        <p class="text-gray-400">Total Trades</p>
+                                        <p id="userTotalTrades" class="text-2xl font-bold text-cyber-blue"></p>
+                                    </div>
+                                    <div class="cyber-border bg-black/30 p-4 rounded-md">
+                                        <p class="text-gray-400">Balance</p>
+                                        <p id="userBalance" class="text-2xl font-bold text-green-500"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="cyber-border bg-black/30 p-4 rounded-md">
+                                    <h4 class="font-bold mb-2">Account Status</h4>
+                                    <div class="flex items-center justify-between">
+                                        <span id="userStatus"></span>
+                                        <button id="toggleStatusBtn" onclick="toggleUserStatus()" class="text-sm px-3 py-1 rounded-md"></button>
+                                    </div>
+                                </div>
+                                <div class="cyber-border bg-black/30 p-4 rounded-md">
+                                    <h4 class="font-bold mb-2">Role Management</h4>
+                                    <select id="userRole" onchange="updateUserRole()" class="w-full bg-black/30 border-0 rounded-md focus:ring-2 focus:ring-cyber-blue">
+                                        <option value="user">User</option>
+                                        <option value="staff">Staff</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trading History -->
+                        <div class="cyber-border bg-black/30 p-4 rounded-md">
+                            <h4 class="font-bold mb-4">Recent Trading History</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="text-left text-gray-400">
+                                            <th class="pb-2">Date</th>
+                                            <th class="pb-2">Type</th>
+                                            <th class="pb-2">Items</th>
+                                            <th class="pb-2">Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="userTradeHistory" class="text-sm">
+                                        <!-- Trade history will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Login History -->
+                        <div class="cyber-border bg-black/30 p-4 rounded-md">
+                            <h4 class="font-bold mb-4">Login History</h4>
+                            <div id="userLoginHistory" class="space-y-2 text-sm">
+                                <!-- Login history will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Load users
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/admin/users');
+                const users = await response.json();
+                
+                const tbody = document.getElementById('usersTableBody');
+                tbody.innerHTML = users.map(user => `
+                    <tr class="hover:bg-black/30">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <img class="h-10 w-10 rounded-full" src="${user.avatarUrl}" alt="">
+                                <div class="ml-4">
+                                    <div class="font-medium">${user.username}</div>
+                                    <div class="text-gray-400 text-sm">${user.steamId}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="${getRoleBadgeClass(user.role)}">${user.role}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="${getStatusBadgeClass(user.status)}">${user.status}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-cyber-blue">
+                            ${user.totalTrades}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-green-500">
+                            $${user.balance.toFixed(2)}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <button onclick="viewUserDetails('${user.steamId}')" class="text-cyber-blue hover:text-cyber-purple mr-3">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button onclick="toggleUserStatus('${user.steamId}')" class="${user.status === 'active' ? 'text-red-500 hover:text-red-400' : 'text-green-500 hover:text-green-400'}">
+                                <i class="fas fa-power-off"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+
+        function getRoleBadgeClass(role) {
+            const classes = {
+                'admin': 'px-2 py-1 text-xs rounded-full bg-red-500/20 text-red-500',
+                'staff': 'px-2 py-1 text-xs rounded-full bg-purple-500/20 text-purple-500',
+                'user': 'px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-500'
+            };
+            return classes[role] || classes.user;
+        }
+
+        function getStatusBadgeClass(status) {
+            return status === 'active' 
+                ? 'px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-500'
+                : 'px-2 py-1 text-xs rounded-full bg-red-500/20 text-red-500';
+        }
+
+        // User Details Modal
+        async function viewUserDetails(steamId) {
+            try {
+                const response = await fetch(`/api/admin/users/${steamId}`);
+                const user = await response.json();
+                
+                // Update modal content
+                document.getElementById('userAvatar').src = user.avatarUrl;
+                document.getElementById('userName').textContent = user.username;
+                document.getElementById('userSteamId').textContent = user.steamId;
+                document.getElementById('userTotalTrades').textContent = user.totalTrades;
+                document.getElementById('userBalance').textContent = `$${user.balance.toFixed(2)}`;
+                document.getElementById('userRole').value = user.role;
+                
+                // Update status button
+                const statusBtn = document.getElementById('toggleStatusBtn');
+                statusBtn.textContent = user.status === 'active' ? 'Ban User' : 'Unban User';
+                statusBtn.className = user.status === 'active'
+                    ? 'text-sm px-3 py-1 rounded-md bg-red-500/20 text-red-500 hover:bg-red-500/30'
+                    : 'text-sm px-3 py-1 rounded-md bg-green-500/20 text-green-500 hover:bg-green-500/30';
+                
+                // Load trade history
+                const tradeHistory = await fetch(`/api/admin/users/${steamId}/trades`);
+                const trades = await tradeHistory.json();
+                document.getElementById('userTradeHistory').innerHTML = trades.map(trade => `
+                    <tr>
+                        <td class="py-2">${new Date(trade.date).toLocaleDateString()}</td>
+                        <td class="py-2"><span class="${trade.type === 'deposit' ? 'text-green-500' : 'text-red-500'}">${trade.type}</span></td>
+                        <td class="py-2">${trade.items.join(', ')}</td>
+                        <td class="py-2">$${trade.value.toFixed(2)}</td>
+                    </tr>
+                `).join('');
+                
+                // Load login history
+                const loginHistory = await fetch(`/api/admin/users/${steamId}/logins`);
+                const logins = await loginHistory.json();
+                document.getElementById('userLoginHistory').innerHTML = logins.map(login => `
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <i class="fas fa-clock mr-2 text-gray-500"></i>
+                            ${new Date(login.date).toLocaleString()}
+                        </div>
+                        <div>
+                            <i class="fas fa-map-marker-alt mr-2 text-gray-500"></i>
+                            ${login.ip} (${login.location})
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Show modal
+                document.getElementById('userDetailsModal').classList.remove('hidden');
+                document.getElementById('userDetailsModal').classList.add('flex');
+            } catch (error) {
+                console.error('Error loading user details:', error);
+            }
+        }
+
+        function closeUserModal() {
+            document.getElementById('userDetailsModal').classList.add('hidden');
+            document.getElementById('userDetailsModal').classList.remove('flex');
+        }
+
+        // User Actions
+        async function toggleUserStatus(steamId) {
+            try {
+                const response = await fetch(`/api/admin/users/${steamId}/toggle`, {
+                    method: 'POST'
+                });
+                if (response.ok) {
+                    loadUsers();
+                    closeUserModal();
+                }
+            } catch (error) {
+                console.error('Error toggling user status:', error);
+            }
+        }
+
+        async function updateUserRole() {
+            const steamId = document.getElementById('userSteamId').textContent;
+            const newRole = document.getElementById('userRole').value;
+            
+            try {
+                const response = await fetch(`/api/admin/users/${steamId}/role`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ role: newRole })
+                });
+                
+                if (response.ok) {
+                    loadUsers();
+                }
+            } catch (error) {
+                console.error('Error updating user role:', error);
+            }
+        }
+
+        // Export Data
+        function exportUserData() {
+            // In a real implementation, this would generate and download a CSV file
+            alert('Exporting user data...');
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#usersTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadUsers);
+    </script>
+</body>
+</html>
