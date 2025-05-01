@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CS2 SKINS</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        'cyber-blue': '#00f3ff',
+                        'cyber-purple': '#b537f2',
+                        'cyber-dark': '#0a0a0a',
+                        'steam-blue': '#1b2838'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #b537f2);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+        .steam-button {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .steam-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #b537f2, #00f3ff);
+            background-size: 200% 200%;
+            animation: gradient-shift 3s ease infinite;
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .steam-button:hover::before {
+            opacity: 1;
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .bg-matrix {
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .floating-skins {
+            position: absolute;
+            opacity: 0.5;
+            filter: blur(1px);
+            pointer-events: none;
+        }
+        .floating-skins img {
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-white font-rajdhani">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyber-blue/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="font-orbitron text-2xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- Language Selector -->
+                    <div class="relative group">
+                        <button class="cyber-border px-3 py-2 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all flex items-center">
+                            <i class="fas fa-globe mr-2"></i>
+                            <span class="current-lang">EN</span>
+                            <i class="fas fa-chevron-down ml-2"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-black/90 rounded-md shadow-lg py-1 hidden group-hover:block">
+                            <button class="lang-select block w-full text-left px-4 py-2 text-sm hover:bg-cyber-blue/10" data-lang="en">
+                                <i class="fas fa-check mr-2 opacity-0"></i>English
+                            </button>
+                            <button class="lang-select block w-full text-left px-4 py-2 text-sm hover:bg-cyber-blue/10" data-lang="pt">
+                                <i class="fas fa-check mr-2 opacity-0"></i>Português
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-baseline space-x-4">
+                        <a href="/trade.html" class="px-3 py-2 hover:text-cyber-blue transition-colors" data-lang="nav.trade">Trade</a>
+                        <a href="/boxes.html" class="px-3 py-2 hover:text-cyber-blue transition-colors" data-lang="nav.cases">Cases</a>
+                        <a href="/wallet.html" class="px-3 py-2 hover:text-cyber-blue transition-colors" data-lang="nav.wallet">Wallet</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="min-h-screen flex items-center justify-center relative bg-matrix">
+        <!-- Floating Skins Background -->
+        <div class="floating-skins -top-20 -left-20 animate-float" style="animation-delay: 0s;">
+            <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV09-5lpKKqPrxN7LEmyVQ7MEpiLuSrYmnjQO3-UdsZGHyd4_Bd1RvNQ7T_FDrw-_ng5Pu75iY1zI97bhLsvQz/360fx360f" 
+                 alt="Floating Skin" class="w-48 h-48 opacity-20">
+        </div>
+        <div class="floating-skins top-40 -right-10 animate-float" style="animation-delay: 2s;">
+            <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf2PLacDBA5ciJlY20k_jkI7fUhFRB4MRij7j--YXygED6-kU_Y2HyctOUIQI3YQyDrla_yO3ohZG76s7NzXthvCkj5HfYzQv330_zf4d0Zw/360fx360f" 
+                 alt="Floating Skin" class="w-48 h-48 opacity-20">
+        </div>
+        <div class="floating-skins -bottom-20 left-1/3 animate-float" style="animation-delay: 4s;">
+            <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV086jloKOhcj8NrrHj1Rd6dd2j6eQ9N2t2wK3-ENsZ23wcIKRdQE2NwyE_FC8x-q91JXtvZrMznM2unRx-z-DyIFJbNUz/360fx360f" 
+                 alt="Floating Skin" class="w-48 h-48 opacity-20">
+        </div>
+
+        <!-- Login Container -->
+        <div class="relative z-10 max-w-md w-full mx-4">
+            <div class="cyber-border rounded-lg bg-black/50 backdrop-blur-md p-8">
+                <!-- Logo -->
+                <div class="text-center mb-8">
+                    <h1 class="font-orbitron text-4xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent mb-2" data-lang="login.title">
+                        CS2 SKINS
+                    </h1>
+                    <p class="text-xl text-gray-400" data-lang="login.subtitle">Trade and open cases securely</p>
+                </div>
+
+                <!-- Steam Login Button -->
+                <div class="mb-8">
+                    <button class="steam-button w-full bg-steam-blue hover:bg-steam-blue/80 text-white py-4 px-6 rounded-lg transition-all flex items-center justify-center space-x-3 text-lg" id="steamLoginBtn">
+                        <i class="fab fa-steam text-2xl"></i>
+                        <span class="font-semibold" data-lang="login.steamButton">Sign in through Steam</span>
+                    </button>
+                    <!-- Error Message Container -->
+                    <div id="errorContainer" class="hidden mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-500">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        <span id="errorMessage"></span>
+                    </div>
+                    <script>
+                        // Error message mapping
+                        const errorMessages = {
+                            'api_key': 'Steam API key not configured. Please contact support.',
+                            'validation': 'Invalid request parameters. Please try again.',
+                            'auth_error': 'Authentication error. Please try again.',
+                            'rate_limit': 'Too many login attempts. Please try again later.',
+                            'invalid_state': 'Invalid authentication state. Please try again.',
+                            'no_steam_id': 'Could not retrieve Steam ID. Please try again.',
+                            'verification_failed': 'Steam verification failed. Please try again.',
+                            'user_info_failed': 'Could not fetch user info. Please try again.',
+                            'account_banned': 'This account has been banned. Please contact support.',
+                            'storage': 'Error storing login data. Please enable cookies and try again.'
+                        };
+
+                        // Check for error parameter in URL
+                        const urlParams = new URLSearchParams(window.location.search);
+                        if (urlParams.has('error')) {
+                            const errorType = urlParams.get('error');
+                            const errorContainer = document.getElementById('errorContainer');
+                            const errorMessage = document.getElementById('errorMessage');
+                            
+                            errorMessage.textContent = errorMessages[errorType] || 'An unknown error occurred. Please try again.';
+                            errorContainer.classList.remove('hidden');
+                        }
+                    </script>
+                </div>
+
+                <!-- Security Info -->
+                <div class="space-y-6">
+                    <div class="flex items-center text-gray-400 group hover:text-cyber-blue transition-colors">
+                        <div class="w-12 h-12 flex items-center justify-center bg-black/30 rounded-lg mr-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-shield-alt text-2xl text-cyber-blue"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1">Secure Authentication</h3>
+                            <p class="text-sm opacity-75">Official Steam OpenID integration</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center text-gray-400 group hover:text-cyber-purple transition-colors">
+                        <div class="w-12 h-12 flex items-center justify-center bg-black/30 rounded-lg mr-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-lock text-2xl text-cyber-purple"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1">Data Protection</h3>
+                            <p class="text-sm opacity-75">Your information is encrypted and secure</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center text-gray-400 group hover:text-green-500 transition-colors">
+                        <div class="w-12 h-12 flex items-center justify-center bg-black/30 rounded-lg mr-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-sync text-2xl text-green-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1">Quick Process</h3>
+                            <p class="text-sm opacity-75">Fast and seamless login experience</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms -->
+                <div class="mt-8 pt-6 border-t border-cyber-blue/20 text-center text-sm">
+                    <p class="text-gray-400">
+                        By logging in, you agree to our 
+                        <a href="#" class="text-cyber-blue hover:text-cyber-purple transition-colors">Terms of Service</a> 
+                        and 
+                        <a href="#" class="text-cyber-blue hover:text-cyber-purple transition-colors">Privacy Policy</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-cyber-dark border-t border-cyber-blue/20 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <span class="font-orbitron text-xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS
+                    </span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-steam"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-4 text-center text-sm text-gray-400">
+                © 2024 CS2 SKINS. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Steam API and Language Support -->
+    <script src="/js/main.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const steamLoginBtn = document.getElementById('steamLoginBtn');
+            const errorContainer = document.getElementById('errorContainer');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Error message mapping
+            const errorMessages = {
+                'api_key': 'Steam API key not configured. Please contact support.',
+                'validation': 'Invalid request parameters. Please try again.',
+                'auth_error': 'Authentication error. Please try again.',
+                'rate_limit': 'Too many login attempts. Please try again later.',
+                'invalid_state': 'Invalid authentication state. Please try again.',
+                'no_steam_id': 'Could not retrieve Steam ID. Please try again.',
+                'verification_failed': 'Steam verification failed. Please try again.',
+                'user_info_failed': 'Could not fetch user info. Please try again.',
+                'account_banned': 'This account has been banned. Please contact support.',
+                'storage': 'Error storing login data. Please enable cookies and try again.',
+                'default': 'Authentication failed. Please try again.'
+            };
+            
+            // Function to show error message
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorContainer.classList.remove('hidden');
+                
+                // Reset button state
+                steamLoginBtn.disabled = false;
+                steamLoginBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                steamLoginBtn.innerHTML = `
+                    <i class="fab fa-steam text-2xl"></i>
+                    <span class="font-semibold">Sign in through Steam</span>
+                `;
+                
+                // Remove loading cursor
+                document.body.classList.remove('cursor-wait');
+            }
+            
+            // Check for existing session
+            const steamToken = localStorage.getItem('steam_token');
+            if (steamToken) {
+                window.location.href = '/dashboard.html';
+                return;
+            }
+
+            // Handle Steam login
+            steamLoginBtn.addEventListener('click', async () => {
+                try {
+                    // Disable button and show loading state
+                    steamLoginBtn.disabled = true;
+                    steamLoginBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                    steamLoginBtn.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span class="font-semibold">Connecting to Steam...</span>
+                        </div>
+                    `;
+                    
+                    // Hide any existing error
+                    errorContainer.classList.add('hidden');
+
+                    // Add loading animation to background
+                    document.body.classList.add('cursor-wait');
+
+                    // Redirect to Steam auth endpoint
+                    window.location.href = '/auth/steam';
+                } catch (error) {
+                    console.error('Steam login error:', error);
+                    showError('Failed to connect to Steam. Please try again.');
+                }
+            });
+
+            // Check for error parameter in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('error')) {
+                const errorType = urlParams.get('error');
+                showError(errorMessages[errorType] || errorMessages.default);
+            }
+        });
+    </script>
+</body>
+</html>
