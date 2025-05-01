@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CS2 SKINS</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        'cyber-blue': '#00f3ff',
+                        'cyber-purple': '#b537f2',
+                        'cyber-dark': '#0a0a0a',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #b537f2);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+        .tab-active {
+            background: linear-gradient(90deg, rgba(0, 243, 255, 0.1), rgba(181, 55, 242, 0.1));
+            border-color: #00f3ff;
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-white font-rajdhani">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyber-blue/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="font-orbitron text-2xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="/trade.html" class="px-3 py-2 hover:text-cyber-blue transition-colors">Trade</a>
+                        <a href="/boxes.html" class="px-3 py-2 hover:text-cyber-blue transition-colors">Cases</a>
+                        <a href="/wallet.html" class="px-3 py-2 hover:text-cyber-blue transition-colors">Wallet</a>
+                        <div class="relative group">
+                            <button class="cyber-border px-6 py-2 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all flex items-center">
+                                <img src="https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg" 
+                                     alt="User Avatar" 
+                                     class="w-6 h-6 rounded-full mr-2">
+                                <span>ADMIN</span>
+                                <i class="fas fa-chevron-down ml-2"></i>
+                            </button>
+                            <div class="absolute right-0 mt-2 w-48 bg-black/90 rounded-md shadow-lg py-1 hidden group-hover:block">
+                                <a href="/dashboard.html" class="block px-4 py-2 text-sm text-cyber-blue hover:bg-cyber-blue/10">
+                                    Dashboard
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-sm text-red-500 hover:bg-red-500/10">
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- User Profile Header -->
+            <div class="cyber-border rounded-lg p-6 bg-black/50 mb-8">
+                <div class="flex items-center space-x-6">
+                    <img src="https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg" 
+                         alt="User Avatar" 
+                         class="w-20 h-20 rounded-full cyber-border">
+                    <div>
+                        <h1 class="text-2xl font-orbitron font-bold">Player123</h1>
+                        <p class="text-gray-400">Member since January 2024</p>
+                        <div class="flex space-x-4 mt-2">
+                            <span class="text-cyber-blue">
+                                <i class="fas fa-exchange-alt mr-1"></i> 150 Trades
+                            </span>
+                            <span class="text-cyber-purple">
+                                <i class="fas fa-box-open mr-1"></i> 75 Cases Opened
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Tabs -->
+            <div class="mb-8">
+                <div class="flex space-x-4">
+                    <button class="tab-active cyber-border px-6 py-3 rounded-md font-semibold">
+                        Trading History
+                    </button>
+                    <button class="cyber-border px-6 py-3 rounded-md font-semibold hover:bg-cyber-blue/10 transition-all">
+                        Case History
+                    </button>
+                    <button class="cyber-border px-6 py-3 rounded-md font-semibold hover:bg-cyber-blue/10 transition-all">
+                        Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- Trading History Section -->
+            <div class="cyber-border rounded-lg overflow-hidden">
+                <div class="bg-black/50 p-6">
+                    <h2 class="text-xl font-semibold mb-6">Recent Trades</h2>
+                    
+                    <!-- Trade Items -->
+                    <div class="space-y-4">
+                        <!-- Trade Item 1 -->
+                        <div class="cyber-border rounded-lg p-4 bg-black/30 hover:bg-cyber-blue/5 transition-all">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV09-5lpKKqPrxN7LEmyVQ7MEpiLuSrYmnjQO3-UdsZGHyd4_Bd1RvNQ7T_FDrw-_ng5Pu75iY1zI97bhLsvQz/360fx360f" 
+                                         alt="Traded Item" class="w-16 h-16 rounded">
+                                    <div>
+                                        <h3 class="font-semibold">★ M9 Bayonet | Gamma Doppler</h3>
+                                        <p class="text-gray-400">Traded with Bot #1337</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-cyber-blue font-semibold">$1,250.00</p>
+                                    <p class="text-gray-400 text-sm">2 hours ago</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trade Item 2 -->
+                        <div class="cyber-border rounded-lg p-4 bg-black/30 hover:bg-cyber-blue/5 transition-all">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf2PLacDBA5ciJlY20k_jkI7fUhFRB4MRij7j--YXygED6-kU_Y2HyctOUIQI3YQyDrla_yO3ohZG76s7NzXthvCkj5HfYzQv330_zf4d0Zw/360fx360f" 
+                                         alt="Traded Item" class="w-16 h-16 rounded">
+                                    <div>
+                                        <h3 class="font-semibold">AWP | Dragon Lore</h3>
+                                        <p class="text-gray-400">Traded with Bot #2048</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-cyber-blue font-semibold">$2,800.00</p>
+                                    <p class="text-gray-400 text-sm">5 hours ago</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trade Item 3 -->
+                        <div class="cyber-border rounded-lg p-4 bg-black/30 hover:bg-cyber-blue/5 transition-all">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV086jloKOhcj8NrrHj1Rd6dd2j6eQ9N2t2wK3-ENsZ23wcIKRdQE2NwyE_FC8x-q91JXtvZrMznM2unRx-z-DyIFJbNUz/360fx360f" 
+                                         alt="Traded Item" class="w-16 h-16 rounded">
+                                    <div>
+                                        <h3 class="font-semibold">★ Butterfly Knife | Fade</h3>
+                                        <p class="text-gray-400">Traded with Bot #4096</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-cyber-blue font-semibold">$1,800.00</p>
+                                    <p class="text-gray-400 text-sm">1 day ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Load More Button -->
+                    <div class="mt-6 text-center">
+                        <button class="cyber-border px-6 py-3 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all">
+                            Load More Trades
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <div class="cyber-border rounded-lg p-6 bg-black/50">
+                    <div class="text-center">
+                        <i class="fas fa-chart-line text-3xl text-cyber-blue mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Total Value Traded</h3>
+                        <p class="text-2xl font-bold text-cyber-blue">$25,430.50</p>
+                    </div>
+                </div>
+
+                <div class="cyber-border rounded-lg p-6 bg-black/50">
+                    <div class="text-center">
+                        <i class="fas fa-trophy text-3xl text-cyber-purple mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Best Drop</h3>
+                        <p class="text-2xl font-bold text-cyber-purple">$2,800.00</p>
+                    </div>
+                </div>
+
+                <div class="cyber-border rounded-lg p-6 bg-black/50">
+                    <div class="text-center">
+                        <i class="fas fa-box-open text-3xl text-green-500 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Cases Opened</h3>
+                        <p class="text-2xl font-bold text-green-500">75</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-cyber-dark border-t border-cyber-blue/20 py-8 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <span class="font-orbitron text-xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS
+                    </span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-steam"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-4 text-center text-sm text-gray-400">
+                © 2024 CS2 SKINS. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality would go here
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('button').forEach(b => {
+                    b.classList.remove('tab-active');
+                });
+                // Add active class to clicked button
+                this.classList.add('tab-active');
+            });
+        });
+    </script>
+</body>
+</html>
