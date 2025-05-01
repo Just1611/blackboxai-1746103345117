@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Cases - CS2 SKINS</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        'cyber-blue': '#00f3ff',
+                        'cyber-purple': '#b537f2',
+                        'cyber-dark': '#0a0a0a',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #b537f2);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+        .case-opening {
+            overflow: hidden;
+            position: relative;
+        }
+        .case-items {
+            display: flex;
+            transition: transform 5s cubic-bezier(0.21, 0.53, 0.29, 0.99);
+        }
+        .case-item {
+            flex-shrink: 0;
+        }
+        .glow-effect {
+            position: relative;
+        }
+        .glow-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #00f3ff, #b537f2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .glow-effect:hover::after {
+            opacity: 0.2;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-white font-rajdhani">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyber-blue/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="font-orbitron text-2xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- Language Selector -->
+                    <div class="relative group">
+                        <button class="cyber-border px-3 py-2 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all flex items-center">
+                            <i class="fas fa-globe mr-2"></i>
+                            <span class="current-lang">EN</span>
+                            <i class="fas fa-chevron-down ml-2"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-black/90 rounded-md shadow-lg py-1 hidden group-hover:block">
+                            <button class="lang-select block w-full text-left px-4 py-2 text-sm hover:bg-cyber-blue/10" data-lang="en">
+                                <i class="fas fa-check mr-2 opacity-0"></i>English
+                            </button>
+                            <button class="lang-select block w-full text-left px-4 py-2 text-sm hover:bg-cyber-blue/10" data-lang="pt">
+                                <i class="fas fa-check mr-2 opacity-0"></i>Português
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-baseline space-x-4">
+                        <a href="/trade.html" class="px-3 py-2 hover:text-cyber-blue transition-colors" data-lang="nav.trade">Trade</a>
+                        <a href="/boxes.html" class="px-3 py-2 text-cyber-blue" data-lang="nav.cases">Cases</a>
+                        <a href="/wallet.html" class="px-3 py-2 hover:text-cyber-blue transition-colors" data-lang="nav.wallet">Wallet</a>
+                        <a href="/login.html" class="cyber-border px-6 py-2 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all">
+                            <i class="fab fa-steam mr-2"></i><span data-lang="nav.login">Login</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Balance Display -->
+            <div class="mb-8 flex justify-between items-center">
+                <h1 class="text-3xl font-orbitron font-bold" data-lang="cases.title">Cases</h1>
+                <div class="cyber-border px-6 py-3 rounded-md bg-black/50">
+                    <span class="text-gray-400" data-lang="cases.balance">Balance:</span>
+                    <span class="text-cyber-blue font-bold ml-2 user-balance">$1,000.00</span>
+                    <button class="ml-4 text-cyber-purple hover:text-cyber-blue transition-colors">
+                        <i class="fas fa-plus-circle"></i> <span data-lang="cases.addFunds">Add Funds</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cases Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Premium Case -->
+                <div class="cyber-border rounded-lg p-4 bg-black/50 glow-effect float-animation">
+                    <div class="relative">
+                        <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFUuh6qZJmlD7tiyl4OIlaGhYuLTzjhVupJ12urH89ii3lHlqEdoMDr2I5jVLFFSv_J2Rg/256fx256f" 
+                             alt="Premium Case" class="w-full rounded-lg mb-4">
+                        <div class="absolute top-2 right-2 bg-cyber-purple/80 px-3 py-1 rounded-full text-sm">
+                            Premium
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-orbitron font-bold mb-2">Elite Case</h3>
+                    <p class="text-gray-400 text-sm mb-4">Chance for rare knives and gloves</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-cyber-blue font-bold">$49.99</span>
+                        <button class="cyber-border px-4 py-2 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all" data-case-id="elite">
+                            <span data-lang="cases.openCase">Open Case</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Knife Case -->
+                <div class="cyber-border rounded-lg p-4 bg-black/50 glow-effect float-animation" style="animation-delay: 0.2s;">
+                    <div class="relative">
+                        <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFUwnfbOdDgavYXukYTZkqf2ZbrTwmkE6scgj7CY94ml3FXl-UNvMmiid9XBcVA9NFyB_VG7k-3xxcjrQK6pFA/256fx256f" 
+                             alt="Knife Case" class="w-full rounded-lg mb-4">
+                        <div class="absolute top-2 right-2 bg-cyber-blue/80 px-3 py-1 rounded-full text-sm">
+                            Special
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-orbitron font-bold mb-2">Knife Hunter</h3>
+                    <p class="text-gray-400 text-sm mb-4">Exclusive knife collection</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-cyber-blue font-bold">$99.99</span>
+                        <button class="cyber-border px-4 py-2 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all" data-case-id="knife">
+                            <span data-lang="cases.openCase">Open Case</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Rifle Case -->
+                <div class="cyber-border rounded-lg p-4 bg-black/50 glow-effect float-animation" style="animation-delay: 0.4s;">
+                    <div class="relative">
+                        <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFUxnaeQImRGu4S1x9TawfSmY-iHkGpQsMBw2u2U8NytiVbi-kc4ajqiJYKRJwdtZAnW-FK7w-jxxcjrr5rMO4k/256fx256f" 
+                             alt="Rifle Case" class="w-full rounded-lg mb-4">
+                        <div class="absolute top-2 right-2 bg-cyber-purple/80 px-3 py-1 rounded-full text-sm">
+                            New
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-orbitron font-bold mb-2">Rifle Master</h3>
+                    <p class="text-gray-400 text-sm mb-4">High-tier rifle skins</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-cyber-blue font-bold">$29.99</span>
+                        <button class="cyber-border px-4 py-2 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all" data-case-id="rifle">
+                            <span data-lang="cases.openCase">Open Case</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case Opening Animation Area (Hidden by default) -->
+            <div class="mt-8 hidden" id="caseOpeningArea">
+                <div class="cyber-border rounded-lg p-4 bg-black/50">
+                    <div class="case-opening relative h-48 mb-4">
+                        <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-cyber-blue/50"></div>
+                        <div class="case-items flex">
+                            <!-- Items will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Drops -->
+            <div class="mt-12">
+                <h2 class="text-2xl font-orbitron font-bold mb-6" data-lang="cases.recentDrops">Recent Drops</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <!-- Recent Drop Items -->
+                    <div class="cyber-border rounded-lg p-2 bg-black/50">
+                        <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV09-5lpKKqPrxN7LEmyVQ7MEpiLuSrYmnjQO3-UdsZGHyd4_Bd1RvNQ7T_FDrw-_ng5Pu75iY1zI97bhLsvQz/360fx360f" 
+                             alt="Recent Drop" class="w-full rounded mb-2">
+                        <p class="text-sm text-center text-gray-400">2 minutes ago</p>
+                    </div>
+
+                    <div class="cyber-border rounded-lg p-2 bg-black/50">
+                        <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV086jloKOhcj8NrrHj1Rd6dd2j6eQ9N2t2wK3-ENsZ23wcIKRdQE2NwyE_FC8x-q91JXtvZrMznM2unRx-z-DyIFJbNUz/360fx360f" 
+                             alt="Recent Drop" class="w-full rounded mb-2">
+                        <p class="text-sm text-center text-gray-400">5 minutes ago</p>
+                    </div>
+
+                    <div class="cyber-border rounded-lg p-2 bg-black/50">
+                        <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf2PLacDBA5ciJlY20k_jkI7fUhFRB4MRij7j--YXygED6-kU_Y2HyctOUIQI3YQyDrla_yO3ohZG76s7NzXthvCkj5HfYzQv330_zf4d0Zw/360fx360f" 
+                             alt="Recent Drop" class="w-full rounded mb-2">
+                        <p class="text-sm text-center text-gray-400">8 minutes ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-cyber-dark border-t border-cyber-blue/20 py-8 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <span class="font-orbitron text-xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                        CS2 SKINS
+                    </span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                        <i class="fab fa-steam"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-4 text-center text-sm text-gray-400">
+                © 2024 CS2 SKINS. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Steam API and Language Support -->
+    <script src="/js/main.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const steamToken = localStorage.getItem('steam_token');
+            if (!steamToken) {
+                // Redirect to login if not authenticated
+                document.querySelectorAll('button').forEach(button => {
+                    if (button.textContent.includes('Open Case')) {
+                        button.addEventListener('click', () => {
+                            window.location.href = '/login.html';
+                        });
+                    }
+                });
+            } else {
+                // Initialize case opening functionality
+                const steamAPI = new SteamAPI();
+                
+                // Update user balance
+                const userBalance = document.querySelector('.user-balance');
+                // This would come from your backend in a real implementation
+                userBalance.textContent = '$1,000.00';
+
+                // Case opening logic
+                function openCase(caseId) {
+                    const caseOpeningArea = document.getElementById('caseOpeningArea');
+                    caseOpeningArea.classList.remove('hidden');
+                    
+                    // Show animation
+                    const caseItems = document.querySelector('.case-items');
+                    caseItems.style.transform = 'translateX(0)';
+                    
+                    // Generate items for animation
+                    const items = generateCaseItems();
+                    caseItems.innerHTML = items.map(item => `
+                        <div class="case-item w-48 p-2">
+                            <img src="${item.imageUrl}" alt="${item.name}" class="w-full rounded">
+                            <p class="text-sm text-center mt-2">${item.name}</p>
+                        </div>
+                    `).join('');
+                    
+                    // Start animation
+                    setTimeout(() => {
+                        caseItems.style.transform = `translateX(-${Math.random() * 2000 + 1000}px)`;
+                    }, 100);
+                    
+                    // Show result
+                    setTimeout(() => {
+                        const result = items[Math.floor(items.length / 2)];
+                        showCaseResult(result);
+                    }, 5500);
+                }
+
+                function generateCaseItems() {
+                    // This would be replaced with real item data from your backend
+                    return Array(20).fill(null).map(() => ({
+                        name: '★ M9 Bayonet | Gamma Doppler',
+                        imageUrl: 'https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV09-5lpKKqPrxN7LEmyVQ7MEpiLuSrYmnjQO3-UdsZGHyd4_Bd1RvNQ7T_FDrw-_ng5Pu75iY1zI97bhLsvQz/360fx360f',
+                        price: Math.random() * 1000 + 100
+                    }));
+                }
+
+                function showCaseResult(item) {
+                    const resultModal = document.createElement('div');
+                    resultModal.className = 'fixed inset-0 flex items-center justify-center z-50';
+                    resultModal.innerHTML = `
+                        <div class="cyber-border rounded-lg p-8 bg-black/90 backdrop-blur-md text-center">
+                            <h3 class="text-2xl font-orbitron font-bold mb-4">Congratulations!</h3>
+                            <img src="${item.imageUrl}" alt="${item.name}" class="w-64 mx-auto mb-4 rounded">
+                            <p class="text-xl font-semibold text-cyber-blue">${item.name}</p>
+                            <p class="text-lg text-cyber-purple">$${item.price.toFixed(2)}</p>
+                            <button class="cyber-border px-6 py-3 rounded-md bg-black/50 hover:bg-cyber-blue/10 transition-all mt-6">
+                                Close
+                            </button>
+                        </div>
+                    `;
+                    document.body.appendChild(resultModal);
+                    
+                    resultModal.querySelector('button').addEventListener('click', () => {
+                        resultModal.remove();
+                        document.getElementById('caseOpeningArea').classList.add('hidden');
+                    });
+                }
+
+                // Add click handlers to case buttons
+                document.querySelectorAll('button').forEach(button => {
+                    if (button.textContent.includes('Open Case')) {
+                        button.addEventListener('click', () => {
+                            openCase(button.dataset.caseId);
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
