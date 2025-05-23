@@ -7,18 +7,22 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "socket.io": "^4.7.2",
     "axios": "^1.4.0",
-    "steam-user": "^4.23.0",
-    "steam-tradeoffer-manager": "^3.15.0",
-    "steamcommunity": "^4.18.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "pg": "^8.11.1",
-    "redis": "^4.6.7",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.3.1",
     "passport": "^0.6.0",
     "passport-steam": "^1.0.11",
-    "express-session": "^1.17.3"
+    "pg": "^8.11.1",
+    "redis": "^4.6.7",
+    "socket.io": "^4.7.2",
+    "steam-tradeoffer-manager": "^2.11.7",
+    "steam-user": "^4.23.0",
+    "steamcommunity": "^3.48.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
